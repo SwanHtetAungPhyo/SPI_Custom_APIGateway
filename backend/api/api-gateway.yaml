@@ -1,0 +1,59 @@
+gateway:
+  name: ApiGateway
+  version: v1
+  description: API Gateway configuration for managing routes and services.
+  defaultRoute: /gate
+  gatewayInfo: http://localhost:8081/gate/services
+  loadBalancing: round-bin
+  mainApplication: Personal AI Investment Assistant
+  services:
+    - name: User
+      url: http://localhost:3001/user-services
+      instances: [3002, 3003, 3004]
+      routes:
+        - path: /service1/route1
+          method: [GET, POST, PATCH, DELETE]
+          description: Service 1 Route 1
+          timeout: 30s
+          retries: 3
+    - name: Expense
+      url: http://localhost:4000/expense-services
+      instances: [4000, 4001, 4002]
+      routes:
+        - path: /service2/route1
+          method: POST
+          description: Service 2 Route 1
+          timeout: 60s
+          retries: 5
+    - name: Budget
+      url: http://localhost:3002/expense-services
+      routes:
+        - path: /service2/route1
+          method: POST
+          description: Service 2 Route 1
+          timeout: 60s
+          retries: 5
+    - name: Goal
+      url: http://localhost:3002/expense-services
+      routes:
+        - path: /service2/route1
+          method: POST
+          description: Service 2 Route 1
+          timeout: 60s
+          retries: 5
+    - name: Investment
+      url: http://localhost:3002/expense-services
+      routes:
+        - path: /service2/route1
+          method: POST
+          description: Service 2 Route 1
+          timeout: 60s
+          retries: 5
+    - name: Assistant
+      url: http://localhost:3002/expense-services
+      routes:
+        - path: /service2/route1
+          method: POST
+          description: Service 2 Route 1
+          timeout: 60s
+          retries: 5

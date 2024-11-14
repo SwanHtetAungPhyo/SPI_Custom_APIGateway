@@ -1,0 +1,3 @@
+GET http://localhost:8081/gate/services
+Content-Type: application/json
+
