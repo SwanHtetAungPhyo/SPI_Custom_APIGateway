@@ -23,5 +23,6 @@ func Configuration() *models.GatewayConfig {
 		log.Fatal(err.Error())
 		return nil
 	}
+
 	return &config.Gateway
 }

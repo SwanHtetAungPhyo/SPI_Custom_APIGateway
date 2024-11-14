@@ -4,56 +4,119 @@ gateway:
   description: API Gateway configuration for managing routes and services.
   defaultRoute: /gate
   gatewayInfo: http://localhost:8081/gate/services
-  loadBalancing: round-bin
+  loadBalancing: random
   mainApplication: Personal AI Investment Assistant
   services:
-    - name: User
-      url: http://localhost:3001/user-services
-      instances: [3002, 3003, 3004]
+    - name: user
+      url: http://localhost
+      leader: user
+      instance:
+        - 3001
+        - 3002
+        - 3003
       routes:
-        - path: /service1/route1
-          method: [GET, POST, PATCH, DELETE]
-          description: Service 1 Route 1
+        - path:
+            - "/:id"
+            - "/"
+          method:
+            - "GET"
+            - "POST"
+            - "PUT"
+            - "DELETE"
+          description: User Services
           timeout: 30s
           retries: 3
+          generatedRoute:
+            - http://localhost:8081/gate/user/
+
     - name: Expense
-      url: http://localhost:4000/expense-services
-      instances: [4000, 4001, 4002]
+      url: http://localhost
+      leader: expense
+      instance:
+        - 4001
+        - 4002
+        - 4003
       routes:
-        - path: /service2/route1
-          method: POST
-          description: Service 2 Route 1
+        - path:
+            - "/:id"
+            - "/"
+          method:
+            - "GET"
+            - "POST"
+            - "PUT"
+            - "DELETE"
+          description: Expense Services
           timeout: 60s
           retries: 5
-    - name: Budget
-      url: http://localhost:3002/expense-services
+          generatedRoute:
+            - http://localhost:8081/gate/expense/
+            - http://localhost:8081/gate/expense/1
+
+    - name: Budgets
+      url: http://localhost
+      leader: budgets
+      instance:
+        - 5001
+        - 5002
+        - 5003
       routes:
-        - path: /service2/route1
-          method: POST
-          description: Service 2 Route 1
+        - path:
+            - "/:id"
+            - "/"
+          method:
+            - "GET"
+            - "POST"
+            - "PUT"
+            - "DELETE"
+          description: Budget Services
           timeout: 60s
           retries: 5
-    - name: Goal
-      url: http://localhost:3002/expense-services
+          generatedRoute:
+            - http://localhost:8081/gate/budget/
+            - http://localhost:8081/gate/budget/1
+
+    - name: Tracking
+      url: http://localhost
+      leader: tracking
+      instance:
+        - 6001
+        - 6002
+        - 6003
       routes:
-        - path: /service2/route1
-          method: POST
-          description: Service 2 Route 1
+        - path:
+            - "/:id"
+            - "/"
+          method:
+            - "GET"
+            - "POST"
+            - "PUT"
+            - "DELETE"
+          description: Tracking Services
           timeout: 60s
           retries: 5
+          generatedRoute:
+            - http://localhost:8081/gate/tracking/
+            - http://localhost:8081/gate/tracking/1
+
     - name: Investment
-      url: http://localhost:3002/expense-services
+      url: http://localhost
+      leader: investment
+      instance:
+        - 7001
+        - 7002
+        - 7003
       routes:
-        - path: /service2/route1
-          method: POST
-          description: Service 2 Route 1
+        - path:
+            - "/:id"
+            - "/"
+          method:
+            - "GET"
+            - "POST"
+            - "PUT"
+            - "DELETE"
+          description: Investment Services
           timeout: 60s
           retries: 5
-    - name: Assistant
-      url: http://localhost:3002/expense-services
-      routes:
-        - path: /service2/route1
-          method: POST
-          description: Service 2 Route 1
-          timeout: 60s
-          retries: 5
+          generatedRoute:
+            - http://localhost:8081/gate/investment/
+            - http://localhost:8081/gate/investment/1

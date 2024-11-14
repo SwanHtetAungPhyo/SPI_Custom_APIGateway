@@ -1,0 +1,227 @@
+### Create an Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "Lunch",
+  "amount": 10.5
+}
+
+### Create an Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "Dinner",
+  "amount": 20.0
+}
+
+### Create an Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "Groceries",
+  "amount": 45.7
+}
+
+### Create an Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "Transportation",
+  "amount": 15.3
+}
+
+### Create an Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "Internet",
+  "amount": 35.0
+}
+
+### Create an Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "Electricity",
+  "amount": 50.0
+}
+
+### Create an Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "Water Bill",
+  "amount": 25.5
+}
+
+### Create an Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "Movie Tickets",
+  "amount": 30.0
+}
+
+### Get All Expenses
+GET http://localhost:8081/gate/expense
+
+### Get a Specific Expense
+GET http://localhost:8081/gate/expense/1
+
+### Get a Specific Expense
+GET http://localhost:8081/gate/expense/2
+
+### Get a Specific Expense
+GET http://localhost:8081/gate/expense/3
+
+### Get a Specific Expense
+GET http://localhost:8081/gate/expense/4
+
+### Get a Specific Expense
+GET http://localhost:8081/gate/expense/5
+
+### Get a Specific Expense
+GET http://localhost:8081/gate/expense/6
+
+### Get a Specific Expense
+GET http://localhost:8081/gate/expense/7
+
+### Get a Specific Expense
+GET http://localhost:8081/gate/expense/8
+
+### Update an Expense
+PUT http://localhost:8081/gate/expense/1
+Content-Type: application/json
+
+{
+  "name": "Lunch",
+  "amount": 12.0
+}
+
+### Update an Expense
+PUT http://localhost:8081/gate/expense/2
+Content-Type: application/json
+
+{
+  "name": "Dinner",
+  "amount": 22.0
+}
+
+### Update an Expense
+PUT http://localhost:8081/gate/expense/3
+Content-Type: application/json
+
+{
+  "name": "Groceries",
+  "amount": 50.0
+}
+
+### Update an Expense
+PUT http://localhost:8081/gate/expense/4
+Content-Type: application/json
+
+{
+  "name": "Transportation",
+  "amount": 18.0
+}
+
+### Update an Expense
+PUT http://localhost:8081/gate/expense/5
+Content-Type: application/json
+
+{
+  "name": "Internet",
+  "amount": 40.0
+}
+
+### Update an Expense
+PUT http://localhost:8081/gate/expense/6
+Content-Type: application/json
+
+{
+  "name": "Electricity",
+  "amount": 55.0
+}
+
+### Update an Expense
+PUT http://localhost:8081/gate/expense/7
+Content-Type: application/json
+
+{
+  "name": "Water Bill",
+  "amount": 30.0
+}
+
+### Update an Expense
+PUT http://localhost:8081/gate/expense/8
+Content-Type: application/json
+
+{
+  "name": "Movie Tickets",
+  "amount": 35.0
+}
+
+### Delete an Expense
+DELETE http://localhost:8081/gate/expense/1
+
+### Delete an Expense
+DELETE http://localhost:8081/gate/expense/2
+
+### Delete an Expense
+DELETE http://localhost:8081/gate/expense/3
+
+### Delete an Expense
+DELETE http://localhost:8081/gate/expense/4
+
+### Delete an Expense
+DELETE http://localhost:8081/gate/expense/5
+
+### Delete an Expense
+DELETE http://localhost:8081/gate/expense/6
+
+### Delete an Expense
+DELETE http://localhost:8081/gate/expense/7
+
+### Delete an Expense
+DELETE http://localhost:8081/gate/expense/8
+
+### Create a New Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "New Expense",
+  "amount": 12.5
+}
+
+### Create a New Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "New Expense 2",
+  "amount": 20.0
+}
+
+### Get All Expenses After Deletions
+GET http://localhost:8081/gate/expense
+
+### Get a Specific Expense (New Expense)
+GET http://localhost:8081/gate/expense/9
+
+### Update New Expense
+PUT http://localhost:8081/gate/expense/9
+Content-Type: application/json
+
+{
+  "name": "Updated New Expense",
+  "amount": 15.0
+}

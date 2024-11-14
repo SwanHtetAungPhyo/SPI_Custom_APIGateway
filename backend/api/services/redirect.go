@@ -3,23 +3,59 @@ package services
 import (
 	"fmt"
 	"github.com/SwanHtetAungPhyo/api/models"
+	"github.com/SwanHtetAungPhyo/api/proxy"
+	"github.com/SwanHtetAungPhyo/api/util"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/proxy"
+	"log"
 	"math/rand"
+	"net/http"
+	"strconv"
 	"time"
 )
 
-type GateWayServices struct {
+type GateWayServices struct{}
+
+func NewGateWay() *GateWayServices {
+	return &GateWayServices{}
 }
 
-func (receiver GateWayServices) SetUpRoutes(app *fiber.App, config *models.GatewayConfig) {
+func (receiver *GateWayServices) SetUpRoutes(app *fiber.App, config *models.GatewayConfig) {
 	for _, service := range config.Services {
 		for _, route := range service.Routes {
-			app.All("/gate/"+service.Name+route.Path, func(ctx *fiber.Ctx) error {
-				currentInstance := receiver.getRandomInstance(service.Instance)
-				targetURL := fmt.Sprintf("%s:%d%s", service.URL, currentInstance, route.Path)
-				return proxy.Do(ctx, targetURL)
-			})
+			requestTimeout, _ := time.ParseDuration(route.Timeout)
+			writeTimeout := requestTimeout
+
+			for _, path := range route.Path {
+				app.All(fmt.Sprintf("/gate/%s%s", service.Name, path), func(ctx *fiber.Ctx) error {
+					id := ctx.Params("id")
+
+					client := &http.Client{
+						Timeout: requestTimeout,
+						Transport: &http.Transport{
+							ResponseHeaderTimeout: writeTimeout,
+						},
+					}
+
+					instanceAlgo := &util.InstanceAlgorithm{
+						Algorithm: config.LoadBalancing,
+					}
+					currentInstance := util.GetCurrentInstance(instanceAlgo, service.Instance)
+					log.Println("Selected Instance:", currentInstance)
+
+					targetURL := fmt.Sprintf("%s:%d/%s", service.URL, currentInstance.Port, service.Leader)
+
+					if id != "" {
+						if ind, err := strconv.Atoi(id); err == nil {
+							targetURL = fmt.Sprintf("%s/%v", targetURL, ind)
+						} else {
+							log.Println("Invalid ID format:", err)
+						}
+					}
+
+					log.Println("Target URL:", targetURL)
+					return proxy.DoWithClient(ctx, targetURL, client)
+				})
+			}
 		}
 	}
 }

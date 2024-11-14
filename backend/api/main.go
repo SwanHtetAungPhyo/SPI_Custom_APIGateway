@@ -1,26 +1,29 @@
 package main
 
 import (
-	"github.com/SwanHtetAungPhyo/api/handler"
 	"github.com/SwanHtetAungPhyo/api/middleware"
+	"github.com/SwanHtetAungPhyo/api/routes"
+	"github.com/SwanHtetAungPhyo/api/services"
+	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
 	"log"
 )
 
+type myCustomStorage struct {
+}
+
+// @Author: Swan Htet Aung Phyo
+// @StartDate: Nov 12 2024
+// @MainTechnology: go fiber
 func main() {
-	app := fiber.New()
-	app.Use(cors.New(cors.Config{
-		AllowOrigins: "http://localhost:3000",
-		AllowMethods: "GET,POST,DELETE",
-		AllowHeaders: "application/json",
-	}))
-
-	app.Use(middleware.MiddleMan{}.ResponseTimeRuler)
-
-	gateway := app.Group("/gate/")
-	gatewayHandler := handler.GateWayHandler{}
-
-	gateway.Get("/services", gatewayHandler.Services)
+	app := fiber.New(
+		fiber.Config{
+			JSONEncoder: json.Marshal,
+			JSONDecoder: json.Unmarshal,
+		})
+	middleman := middleware.NewMiddleMan()
+	middleman.SetupMiddlewares(app)
+	gatewayServices := services.NewGateWay()
+	routes.SetupRoutesForAPP(app, gatewayServices)
 	log.Fatal(app.Listen(":8081"))
 }

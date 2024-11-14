@@ -1,0 +1,101 @@
+### Create an Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "Lunch",
+  "amount": 10.5
+}
+
+### Create an Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "Lunch",
+  "amount": 10.5
+}
+
+### Create an Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "Lunch",
+  "amount": 10.5
+}
+
+### Create an Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "Lunch",
+  "amount": 10.5
+}
+
+
+### Create an Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "Lunch",
+  "amount": 10.5
+}
+
+### Create an Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "Lunch",
+  "amount": 10.5
+}
+
+
+### Create an Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "Lunch",
+  "amount": 10.5
+}
+
+
+### Create an Expense
+POST http://localhost:8081/gate/expense
+Content-Type: application/json
+
+{
+  "name": "Lunch",
+  "amount": 10.5
+}
+
+
+###
+
+### Get All Expenses
+GET http://localhost:8081/gate/expense
+
+###
+
+### Get a Specific Expense
+GET http://localhost:8081/gate/expense/1
+
+###
+
+### Update an Expense
+PUT http://localhost:8081/gate/expense/1
+Content-Type: application/json
+
+{
+  "name": "Dinner",
+  "amount": 20.0
+}
+
+###
+
+### Delete an Expense
+DELETE http://localhost:8081/gate/expense/2
