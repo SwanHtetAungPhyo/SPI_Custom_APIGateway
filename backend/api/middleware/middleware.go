@@ -5,7 +5,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/csrf"
 	"github.com/gofiber/fiber/v2/middleware/earlydata"
 	"github.com/gofiber/fiber/v2/middleware/healthcheck"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
@@ -48,8 +47,6 @@ func (m *MiddleMan) SetupMiddlewares(app *fiber.App) {
 		},
 		Storage: nil,
 	}))
-
-	app.Use(csrf.New())
 
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "http://localhost:3000",

@@ -11,5 +11,7 @@ func SetupRoutesForAPP(app *fiber.App, gatewayServices *services.GateWayServices
 	gatewayHandler := handler.GateWayHandler{}
 
 	gateway.Get("/services", gatewayHandler.Services)
+
+	app.Post("/login", handler.LoginHandler)
 	gatewayServices.SetUpRoutes(app, services.Configuration())
 }

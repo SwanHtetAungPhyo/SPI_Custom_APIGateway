@@ -3,6 +3,7 @@ package util
 import (
 	"fmt"
 	"math/rand"
+	"sync/atomic"
 	"time"
 )
 
@@ -45,18 +46,20 @@ func GetCurrentInstance(algorithm *InstanceAlgorithm, instances []int) *Selected
 
 // RoundRobin / ROUND_ROBIN Load Balancer
 type RoundRobin struct {
-	LastIndex int
+	LastIndex int32
 }
 
 func (rr *RoundRobin) SelectInstance(instances []int) int {
-	rr.LastIndex = (rr.LastIndex + 1) % len(instances)
-	return instances[rr.LastIndex]
+
+	newIndex := atomic.AddInt32(&rr.LastIndex, 1) % int32(len(instances))
+	return instances[newIndex]
 }
 
-// Random Load Balancer
+// Random Load Balancer with Atomic Safety
 type Random struct{}
 
 func (r *Random) SelectInstance(instances []int) int {
+
 	rand.Seed(time.Now().UnixNano())
 	index := rand.Intn(len(instances))
 	fmt.Println("Selected random index:", index)

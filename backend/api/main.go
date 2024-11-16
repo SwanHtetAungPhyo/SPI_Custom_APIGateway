@@ -7,6 +7,7 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 	"log"
+	"os"
 )
 
 type myCustomStorage struct {
@@ -16,6 +17,7 @@ type myCustomStorage struct {
 // @StartDate: Nov 12 2024
 // @MainTechnology: go fiber
 func main() {
+	log.SetOutput(os.Stdout)
 	app := fiber.New(
 		fiber.Config{
 			JSONEncoder: json.Marshal,

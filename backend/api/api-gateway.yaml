@@ -4,7 +4,9 @@ gateway:
   description: API Gateway configuration for managing routes and services.
   defaultRoute: /gate
   gatewayInfo: http://localhost:8081/gate/services
-  loadBalancing: random
+  username: Swan
+  password: Swanhtet12@
+  loadBalancing: round-bin
   mainApplication: Personal AI Investment Assistant
   services:
     - name: user
@@ -29,13 +31,12 @@ gateway:
           generatedRoute:
             - http://localhost:8081/gate/user/
 
-    - name: Expense
+    - name: expense
       url: http://localhost
       leader: expense
       instance:
         - 4001
-        - 4002
-        - 4003
+
       routes:
         - path:
             - "/:id"

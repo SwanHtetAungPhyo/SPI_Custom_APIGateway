@@ -5,6 +5,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"io"
 	"log"
+
 	"net/http"
 )
 
@@ -14,10 +15,15 @@ func DoWithClient(ctx *fiber.Ctx, targetUrl string, client *http.Client) error {
 		return ctx.Status(fiber.StatusInternalServerError).SendString("Error creating request")
 	}
 
-	req.Header = make(http.Header)
 	for key, values := range ctx.GetReqHeaders() {
 		for _, value := range values {
 			req.Header.Add(key, value)
+		}
+	}
+
+	if ctx.Method() == "POST" || ctx.Method() == "PUT" {
+		if contentType := ctx.Get("Content-Type"); contentType != "" {
+			req.Header.Set("Content-Type", "application/json")
 		}
 	}
 
@@ -26,6 +32,7 @@ func DoWithClient(ctx *fiber.Ctx, targetUrl string, client *http.Client) error {
 		log.Printf("Error during proxying: %v", err)
 		return ctx.Status(fiber.StatusGatewayTimeout).SendString("Request timed out")
 	}
+
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
@@ -41,5 +48,4 @@ func DoWithClient(ctx *fiber.Ctx, targetUrl string, client *http.Client) error {
 	ctx.Set("Content-Type", resp.Header.Get("Content-Type"))
 	ctx.Status(resp.StatusCode)
 	return ctx.Send(body)
-
 }

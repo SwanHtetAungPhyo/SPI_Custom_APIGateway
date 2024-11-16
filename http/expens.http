@@ -26,6 +26,29 @@ Content-Type: application/json
 }
 
 ### Create an Expense
+GET http://localhost:8081/gate/jwt/expense
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzE4Njc5OTMsImlhdCI6MTczMTc4MTU5MywidXNlcklEIjoidXNlciJ9.NUnoPL7CP50X7acvZc0_uvC2jhePb4oayjGOz_5OzNM
+### Create an Expense
+POST http://localhost:8081/gate/jwt/expense/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzE4Njc5OTMsImlhdCI6MTczMTc4MTU5MywidXNlcklEIjoidXNlciJ9.NUnoPL7CP50X7acvZc0_uvC2jhePb4oayjGOz_5OzNM
+Content-Type: application/json
+
+{
+  "name": "Lunch",
+  "amount": 10.5
+}
+
+
+### Create an Expense
+POST http://localhost:4001/expense
+Content-Type: application/json
+
+{
+  "name": "Lunch",
+  "amount": 10.5
+}
+
+### Create an Expense
 POST http://localhost:8081/gate/expense
 Content-Type: application/json
 
@@ -44,28 +67,9 @@ Content-Type: application/json
   "amount": 10.5
 }
 
-### Create an Expense
-POST http://localhost:8081/gate/expense
-Content-Type: application/json
-
-{
-  "name": "Lunch",
-  "amount": 10.5
-}
-
 
 ### Create an Expense
-POST http://localhost:8081/gate/expense
-Content-Type: application/json
-
-{
-  "name": "Lunch",
-  "amount": 10.5
-}
-
-
-### Create an Expense
-POST http://localhost:8081/gate/expense
+POST http://localhost:8081/gate/expense/1
 Content-Type: application/json
 
 {
@@ -77,12 +81,12 @@ Content-Type: application/json
 ###
 
 ### Get All Expenses
-GET http://localhost:8081/gate/expense
-
+GET http://localhost:8081/gate/expense/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzE4NjQyMzUsImlhdCI6MTczMTc3NzgzNX0.tfD4kVG3XblHfEnwHVOP47PeqRmyJkOyeLM9Kz_HrNo
 ###
 
 ### Get a Specific Expense
-GET http://localhost:8081/gate/expense/1
+GET http://localhost:8081/gate/expense
 
 ###
 
