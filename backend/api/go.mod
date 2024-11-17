@@ -3,15 +3,14 @@ module github.com/SwanHtetAungPhyo/api
 go 1.23.2
 
 require (
+	github.com/goccy/go-json v0.10.3
 	github.com/gofiber/fiber/v2 v2.52.5
+	github.com/golang-jwt/jwt/v4 v4.5.1
 	gopkg.in/yaml.v3 v3.0.1
 )
 
-require github.com/golang-jwt/jwt/v4 v4.0.0
-
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/goccy/go-json v0.10.3 // indirect
 	github.com/google/uuid v1.5.0 // indirect
 	github.com/klauspost/compress v1.17.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect

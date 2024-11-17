@@ -1,0 +1,24 @@
+# Test "/hi" route
+GET http://localhost:1234/hi
+Accept: text/plain
+
+# Test "/numbers/(\d+)" route (with a number parameter)
+###
+GET http://localhost:1234/numbers/123
+Accept: text/plain
+
+# Test "/users/:id" route (with a dynamic ID parameter)
+###
+GET http://localhost:1234/users/42
+Accept: text/plain
+
+# Test "/body-header-param" route (with a Content-Length header and query parameters)
+###
+GET http://localhost:1234/body-header-param?key=value
+Content-Length: 123
+Accept: text/plain
+
+# Test "/stop" route to stop the server (no response expected, will stop the server)
+###
+GET http://localhost:1234/stop
+Accept: text/plain
