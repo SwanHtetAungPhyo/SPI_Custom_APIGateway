@@ -67,8 +67,9 @@ export default function ApiGatewayUI() {
                 setApiGatewayConfig(data)
                 setActiveTab(data.Services[0].Name)
                 setLoading(false)
-            } catch (err: any) {
-                setError(err.message)
+            } catch (err :unknown) {
+                // @ts-expect-error Ignoring error because err.data may not exist
+                setError(err.data)
                 setLoading(false)
             }
         }

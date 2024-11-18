@@ -13,9 +13,7 @@ gateway:
       url: http://localhost
       leader: user
       instance:
-        - 3001
-        - 3002
-        - 3003
+        - 3000
       routes:
         - path:
             - "/:id"
@@ -30,94 +28,5 @@ gateway:
           retries: 3
           generatedRoute:
             - http://localhost:8081/gate/user/
-
-    - name: expense
-      url: http://localhost
-      leader: expense
-      instance:
-        - 4001
-
-      routes:
-        - path:
-            - "/:id"
-            - "/"
-          method:
-            - "GET"
-            - "POST"
-            - "PUT"
-            - "DELETE"
-          description: Expense Services
-          timeout: 60s
-          retries: 5
-          generatedRoute:
-            - http://localhost:8081/gate/expense/
-            - http://localhost:8081/gate/expense/1
-
-    - name: Budgets
-      url: http://localhost
-      leader: budgets
-      instance:
-        - 5001
-        - 5002
-        - 5003
-      routes:
-        - path:
-            - "/:id"
-            - "/"
-          method:
-            - "GET"
-            - "POST"
-            - "PUT"
-            - "DELETE"
-          description: Budget Services
-          timeout: 60s
-          retries: 5
-          generatedRoute:
-            - http://localhost:8081/gate/budget/
-            - http://localhost:8081/gate/budget/1
-
-    - name: Tracking
-      url: http://localhost
-      leader: tracking
-      instance:
-        - 6001
-        - 6002
-        - 6003
-      routes:
-        - path:
-            - "/:id"
-            - "/"
-          method:
-            - "GET"
-            - "POST"
-            - "PUT"
-            - "DELETE"
-          description: Tracking Services
-          timeout: 60s
-          retries: 5
-          generatedRoute:
-            - http://localhost:8081/gate/tracking/
-            - http://localhost:8081/gate/tracking/1
-
-    - name: Investment
-      url: http://localhost
-      leader: investment
-      instance:
-        - 7001
-        - 7002
-        - 7003
-      routes:
-        - path:
-            - "/:id"
-            - "/"
-          method:
-            - "GET"
-            - "POST"
-            - "PUT"
-            - "DELETE"
-          description: Investment Services
-          timeout: 60s
-          retries: 5
-          generatedRoute:
-            - http://localhost:8081/gate/investment/
-            - http://localhost:8081/gate/investment/1
+          realUrl:
+            -http://localhost:3000/user/

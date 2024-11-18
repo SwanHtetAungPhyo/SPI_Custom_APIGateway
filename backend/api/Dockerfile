@@ -1,29 +1,32 @@
-# Use the official Golang image as the build stage
-FROM golang:1.19.2-bullseye AS builder
+# Build Stage
+FROM golang:1.23.2-alpine AS build
 
-# Set the working directory inside the container
+# Set the current working directory inside the container
 WORKDIR /app
 
-# Copy only the go.mod and go.sum files to leverage Docker cache
-COPY go.mod go.sum ./
-
-# Download dependencies to cache them in a separate layer
-RUN go mod vendor
-
-# Copy the source code into the container
+# Copy the entire project to the working directory
 COPY . .
 
-# Build the Go application with optimizations
-RUN go build -o gate main.go
+# Install necessary dependencies (if needed)
+RUN go mod tidy
 
-# Use a minimal base image for the final stage
+# Build the Go app
+RUN go build -o main .
+
+# Run Stage (using a smaller base image)
 FROM debian:bullseye-slim
 
-# Copy the built application from the builder stage
-COPY --from=builder /app/gate /gate
+# Install necessary packages (e.g., for running Go binary)
+RUN apt-get update && apt-get install -y ca-certificates
 
-# Set up the default port
-EXPOSE 8082
+# Set the current working directory inside the container
+WORKDIR /root/
 
-# Set the entrypoint to the built binary
-CMD ["/gate"]
+# Copy the Go binary from the build stage
+COPY --from=build /app/main .
+
+# Expose the application port
+EXPOSE 8081
+
+# Command to run the executable
+CMD ["./main"]

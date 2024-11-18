@@ -2,6 +2,7 @@ package proxy
 
 import (
 	"bytes"
+	logger2 "github.com/SwanHtetAungPhyo/api/log"
 	"github.com/gofiber/fiber/v2"
 	"io"
 	"log"
@@ -9,8 +10,12 @@ import (
 	"net/http"
 )
 
+var logger = logger2.GetLogger()
+
 func DoWithClient(ctx *fiber.Ctx, targetUrl string, client *http.Client) error {
 	req, err := http.NewRequest(ctx.Method(), targetUrl, bytes.NewReader(ctx.Body()))
+	logger.Info("Proxying request to: ", ctx)
+	logger.Info("Target URL: ", targetUrl)
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).SendString("Error creating request")
 	}

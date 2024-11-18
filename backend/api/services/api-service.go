@@ -11,9 +11,10 @@ func Configuration() *models.GatewayConfig {
 	var config struct {
 		Gateway models.GatewayConfig `yaml:"gateway"`
 	}
-	file, err := os.Open("api-gateway.yaml")
+
+	file, err := os.Open("/config/api-gateway.yaml")
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Fatalf("Config file not found. Please mount the config file to /config/api-gateway.yaml: %s", err.Error())
 		return nil
 	}
 

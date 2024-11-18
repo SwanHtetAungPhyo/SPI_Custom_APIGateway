@@ -8,10 +8,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/earlydata"
 	"github.com/gofiber/fiber/v2/middleware/healthcheck"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
-	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"log"
-	"os"
 	"strconv"
 	"time"
 )
@@ -58,17 +56,17 @@ func (m *MiddleMan) SetupMiddlewares(app *fiber.App) {
 		Error: fiber.ErrTooEarly,
 	}))
 
-	app.Use(logger.New(logger.Config{
-		Format:     "[${ip}]:${port} ${status} - ${method} ${path}\n",
-		Output:     os.Stdout,
-		TimeFormat: time.RFC3339Nano,
-		TimeZone:   "Europe/Warsaw",
-		CustomTags: map[string]logger.LogFunc{
-			"request_id": func(output logger.Buffer, c *fiber.Ctx, data *logger.Data, extraParam string) (int, error) {
-				return output.WriteString(c.Locals("requestid").(string))
-			},
-		},
-	}))
+	//app.Use(logger.New(logger.Config{
+	//	Format:     "[${ip}]:${port} ${status} - ${method} ${path}\n",
+	//	Output:     os.Stdout,
+	//	TimeFormat: time.RFC3339Nano,
+	//	TimeZone:   "Europe/Warsaw",
+	//	CustomTags: map[string]logger.LogFunc{
+	//		"request_id": func(output logger.Buffer, c *fiber.Ctx, data *logger.Data, extraParam string) (int, error) {
+	//			return output.WriteString(c.Locals("requestid").(string))
+	//		},
+	//	},
+	//}))
 
 	app.Get("/metrics", monitor.New(monitor.Config{Title: "SPI GateWay"}))
 }

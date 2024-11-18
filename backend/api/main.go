@@ -1,23 +1,21 @@
 package main
 
 import (
+	logger "github.com/SwanHtetAungPhyo/api/log"
 	"github.com/SwanHtetAungPhyo/api/middleware"
 	"github.com/SwanHtetAungPhyo/api/routes"
 	"github.com/SwanHtetAungPhyo/api/services"
 	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 	"log"
-	"os"
 )
-
-type myCustomStorage struct {
-}
 
 // @Author: Swan Htet Aung Phyo
 // @StartDate: Nov 12 2024
 // @MainTechnology: go fiber
 func main() {
-	log.SetOutput(os.Stdout)
+	logger.SetupLogger()
+	log.Println("Starting the application...")
 	app := fiber.New(
 		fiber.Config{
 			JSONEncoder: json.Marshal,

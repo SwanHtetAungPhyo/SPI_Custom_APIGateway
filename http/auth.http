@@ -5,3 +5,16 @@ Content-Type: application/json
   "username": "user",
   "password": "password"
 }
+
+###
+GET http://localhost:3000/user/
+###
+POST http://localhost:8081/gate/user/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzE5NjI3NTUsImlhdCI6MTczMTg3NjM1NSwidXNlcklEIjoidXNlciJ9.8sICFBsN_88cGtl52BgcWPgGpvcLEiro3vZa9yVEAvo
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "age": 30,
+  "email": "john.doe@example.com"
+}
