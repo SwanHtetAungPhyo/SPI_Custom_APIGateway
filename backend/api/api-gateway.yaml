@@ -6,6 +6,8 @@ gateway:
   gatewayInfo: http://localhost:8081/gate/services
   username: Swan
   password: Swanhtet12@
+  blackSpaceIP: PL
+  jwtKey: D1AD5D6A37332DC852C48299AB8FE
   loadBalancing: round-bin
   mainApplication: Personal AI Investment Assistant
   services:
@@ -13,11 +15,14 @@ gateway:
       url: http://localhost
       leader: user
       instance:
-        - 3000
+        - 3002
+        - 3003
+        - 3004
+        - 3005
       routes:
         - path:
-            - "/:id"
-            - "/"
+            - "/login"
+            - "/info"
           method:
             - "GET"
             - "POST"

@@ -3,11 +3,13 @@ package main
 import (
 	logger "github.com/SwanHtetAungPhyo/api/log"
 	"github.com/SwanHtetAungPhyo/api/middleware"
+	"github.com/SwanHtetAungPhyo/api/models"
 	"github.com/SwanHtetAungPhyo/api/routes"
 	"github.com/SwanHtetAungPhyo/api/services"
 	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 	"log"
+	_ "net/http/pprof"
 )
 
 // @Author: Swan Htet Aung Phyo
@@ -21,9 +23,13 @@ func main() {
 			JSONEncoder: json.Marshal,
 			JSONDecoder: json.Unmarshal,
 		})
-	middleman := middleware.NewMiddleMan()
-	middleman.SetupMiddlewares(app)
 	gatewayServices := services.NewGateWay()
+	config := models.Configuration()
+	middleman := middleware.NewMiddleMan(config.BlackSpace)
+	middleman.SetupMiddlewares(app)
+
+
 	routes.SetupRoutesForAPP(app, gatewayServices)
 	log.Fatal(app.Listen(":8081"))
+
 }

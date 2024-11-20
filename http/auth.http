@@ -1,13 +1,15 @@
-POST  http://localhost:8081/login
+POST http://localhost:8081/gate/user/login
 Content-Type: application/json
 
 {
-  "username": "user",
+  "username": "admin",
   "password": "password"
 }
 
 ###
-GET http://localhost:3000/user/
+GET http://localhost:8081/gate/user/info
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzIxNTg5NzMsImlhdCI6MTczMjA3MjU3MywidHlwZSI6IkFDQ0VTUyIsInVzZXJJRCI6Ijk1NmEwMzA1LWY5OTktNDE1Ny04NmNmLTk3MWYyYjFjYzQ0OSJ9.IvZHUIW_qMYIyJ5I1KdC-P0WL9QLbaTbVTDRTpIdR90
+
 ###
 POST http://localhost:8081/gate/user/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzE5NjI3NTUsImlhdCI6MTczMTg3NjM1NSwidXNlcklEIjoidXNlciJ9.8sICFBsN_88cGtl52BgcWPgGpvcLEiro3vZa9yVEAvo
@@ -18,3 +20,6 @@ Content-Type: application/json
   "age": 30,
   "email": "john.doe@example.com"
 }
+
+###
+GET http://localhost:8081/gate/services

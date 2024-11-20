@@ -2,9 +2,23 @@ package util
 
 import (
 	"fmt"
+	"hash/fnv"
 	"math/rand"
 	"sync/atomic"
 	"time"
+)
+
+const (
+	ROUND_ROBIN                = "round-robin"
+	LEAST_CONNECTIONS          = "least-connections"
+	LEAST_RESPONSE_TIME        = "least-response-time"
+	IP_HASH                    = "ip-hash"
+	WEIGHTED_ROUND_ROBIN       = "weighted-round-robin"
+	WEIGHTED_LEAST_CONNECTIONS = "weighted-least-connections"
+	RANDOM                     = "random"
+	CONSISTENCY_HASHING        = "consistency-hashing"
+	CLIENT_IP_AFFINITY         = "client-ip-affinity"
+	HEALTH_BASED               = "health-based"
 )
 
 type InstanceAlgorithm struct {
@@ -15,7 +29,9 @@ type SelectedInstance struct {
 	Port int `json:"port"`
 }
 
-func GetCurrentInstance(algorithm *InstanceAlgorithm, instances []int) *SelectedInstance {
+var rng = rand.New(rand.NewSource(time.Now().UnixNano())) // Seed once globally
+
+func GetCurrentInstance(algorithm *InstanceAlgorithm, instances []int, clientIp string) *SelectedInstance {
 	if algorithm == nil {
 		return nil
 	}
@@ -23,7 +39,7 @@ func GetCurrentInstance(algorithm *InstanceAlgorithm, instances []int) *Selected
 	var currentInstance SelectedInstance
 	switch algorithm.Algorithm {
 	case ROUND_ROBIN:
-		robin := RoundRobin{
+		robin := &RoundRobin{
 			LastIndex: 0,
 		}
 
@@ -33,9 +49,15 @@ func GetCurrentInstance(algorithm *InstanceAlgorithm, instances []int) *Selected
 		}
 
 	case RANDOM:
-		random := Random{}
+		random := &Random{}
 
 		selectedPort := random.SelectInstance(instances)
+		currentInstance = SelectedInstance{
+			Port: instances[selectedPort],
+		}
+	case IP_HASH:
+		ip := &IPHash{}
+		selectedPort := ip.SelectInstance(instances, clientIp)
 		currentInstance = SelectedInstance{
 			Port: instances[selectedPort],
 		}
@@ -44,7 +66,6 @@ func GetCurrentInstance(algorithm *InstanceAlgorithm, instances []int) *Selected
 	return &currentInstance
 }
 
-// RoundRobin / ROUND_ROBIN Load Balancer
 type RoundRobin struct {
 	LastIndex int32
 }
@@ -52,24 +73,40 @@ type RoundRobin struct {
 func (rr *RoundRobin) SelectInstance(instances []int) int {
 
 	newIndex := atomic.AddInt32(&rr.LastIndex, 1) % int32(len(instances))
-	return instances[newIndex]
+	return int(newIndex)
 }
 
-// Random Load Balancer with Atomic Safety
 type Random struct{}
 
 func (r *Random) SelectInstance(instances []int) int {
-
-	rand.Seed(time.Now().UnixNano())
-	index := rand.Intn(len(instances))
+	// Reusing the global RNG instance (no need to re-seed each time)
+	index := rng.Intn(len(instances))
 	fmt.Println("Selected random index:", index)
 	return index
 }
 
-// LeastConnections LEAST_CONNECTIONS Load Balancer
-type LeastConnections struct {
-	// In a real scenario, you'd track active connections for each instance
+// IPHash IP_HASH Load Balancer
+type IPHash struct{}
+
+func (ih *IPHash) SelectInstance(instances []int, clientIp string) int {
+	hash := ih.hashIp(clientIp)
+	index := int(hash % uint32(len(instances)))
+	return index
 }
+
+func (ih *IPHash) hashIp(clientIp string) uint32 {
+	hash := fnv.New32a()
+	_, err := hash.Write([]byte(clientIp))
+	if err != nil {
+		return 0
+	}
+	return hash.Sum32()
+}
+
+//// LeastConnections LEAST_CONNECTIONS Load Balancer (Placeholder for actual implementation)
+//type LeastConnections struct {
+//	// In a real scenario, you'd track active connections for each instance
+//}
 
 //
 //func (lc *LeastConnections) SelectInstance(instances []Instance) Instance {
